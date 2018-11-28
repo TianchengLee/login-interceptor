@@ -29,8 +29,8 @@ export default {
   },
   methods: {
     getUsers() {
-      const token = localStorage.getItem("token");
-      getUsers(token, 1, 10).then(res => {
+      // const token = localStorage.getItem("token");
+      getUsers(1, 10).then(res => {
         console.log(res);
         if (res.data.meta.status === 200) {
           this.users = res.data.data.users;
