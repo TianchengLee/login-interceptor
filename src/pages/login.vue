@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { login } from "../api";
 
 export default {
   data() {
@@ -28,22 +28,16 @@ export default {
   },
   methods: {
     handleLogin() {
-      console.log('执行登录')
-      axios
-        .post("/login", {
-          username: this.form.username,
-          password: this.form.password
-        })
-        .then(res => {
-          if (res.data.meta.status === 200) {
-            this.$message('登陆成功!')
-            localStorage.setItem('token', res.data.data.token)
-            localStorage.setItem('userInfo', JSON.stringify(res.data.data))
-            this.$router.push('/home')
-          } else {
-            this.$message('登录失败!请重试!')
-          }
-        });
+      login(this.form.username, this.form.password).then(res => {
+        if (res.data.meta.status === 200) {
+          this.$message("登陆成功!");
+          localStorage.setItem("token", res.data.data.token);
+          localStorage.setItem("userInfo", JSON.stringify(res.data.data));
+          this.$router.push("/home");
+        } else {
+          this.$message("登录失败!请重试!");
+        }
+      });
     }
   }
 };

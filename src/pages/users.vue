@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { getUsers } from "../api";
 export default {
   data() {
     return {
@@ -30,21 +30,14 @@ export default {
   methods: {
     getUsers() {
       const token = localStorage.getItem("token");
-      axios
-        .get("/users", {
-          headers: {
-            Authorization: token
-          },
-          params: { pagenum: 1, pagesize: 10 }
-        })
-        .then(res => {
-          console.log(res);
-          if (res.data.meta.status === 200) {
-            this.users = res.data.data.users;
-          } else if (res.data.meta.status === 400){
-            this.$message(res.data.meta.msg)
-          }
-        });
+      getUsers(token, 1, 10).then(res => {
+        console.log(res);
+        if (res.data.meta.status === 200) {
+          this.users = res.data.data.users;
+        } else if (res.data.meta.status === 400) {
+          this.$message(res.data.meta.msg);
+        }
+      });
     }
   }
 };
